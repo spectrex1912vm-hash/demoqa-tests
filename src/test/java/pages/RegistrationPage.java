@@ -3,9 +3,7 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.CalendarComponent;
 import pages.components.RegistrationResultsModal;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -19,7 +17,14 @@ public class RegistrationPage {
             lastNameInput = $("#lastName"),
             emailInput =  $("#userEmail"),
             phoneInput = $("#userNumber"),
-            dateOfBirthInput = $("#dateOfBirthInput");
+            dateOfBirthInput = $("#dateOfBirthInput"),
+            subjectInput = $("#subjectsInput"),
+            uploadPictureInput =  $("#uploadPicture"),
+            currentAddressInput =  $("#currentAddress"),
+            stateInput =  $("#state input"),
+            cityInput =   $("#city"),
+            stateSityWrapper =  $("#stateCity-wrapper"),
+            submitButton =  $("#submit");
 
 
     public RegistrationPage openPage() {
@@ -54,7 +59,7 @@ public class RegistrationPage {
     }
 
     public RegistrationPage setGender(String value) {
-        $("#genterWrapper").$(byText(value)).click();
+        $("#genterWrapper").$(byText(value))  .click();
 
         return this;
     }
@@ -72,6 +77,16 @@ public class RegistrationPage {
         return this;
     }
 
+    public RegistrationPage setBirthDate(String date) {
+        String[] parts = date.split(" ");
+
+        String day = parts[0];
+        String month = parts[1];
+        String year = parts[2];
+
+        return setBirthDate(day, month, year);
+    }
+
     public RegistrationPage verifyResultsModalAppears() {
         registrationResultsModal.verifyModalAppears();
 
@@ -84,6 +99,45 @@ public class RegistrationPage {
         return this;
     }
 
+    public RegistrationPage setSubjects(String value) {
+        subjectInput.setValue(value).pressEnter();
 
+        return this;
+
+    }
+
+    public RegistrationPage setHobbies(String value) {
+        $("#hobbiesWrapper").$(byText(value)).click();
+        return this;
+    }
+
+    public RegistrationPage setCurrentAddress(String value) {
+        currentAddressInput.setValue(value);
+        return this;
+    }
+
+    public RegistrationPage uploadPicture(String filename) {
+        uploadPictureInput.uploadFromClasspath(filename);
+        return this;
+    }
+
+    public RegistrationPage setState(String value) {
+        stateInput.scrollIntoView("{block: 'center'}");
+        stateInput.click();
+        stateSityWrapper.$(byText(value)).click();
+        return this;
+    }
+
+    public RegistrationPage setCity(String value) {
+        cityInput.scrollIntoView("{block: 'center'}");
+        cityInput.click();
+        stateSityWrapper.$(byText(value)).click();
+        return this;
+    }
+
+    public RegistrationPage submit() {
+        submitButton.click();
+        return this;
+    }
 
 }

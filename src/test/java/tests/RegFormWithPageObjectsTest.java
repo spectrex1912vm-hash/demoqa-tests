@@ -5,44 +5,41 @@ public class RegFormWithPageObjectsTest extends TestBase{
 
     @Test
     void regFormTest() {
-        String userName = "Testqa";
+        TestData testData = new TestData();
+
+        String userName = testData.userName;
         String subject = "Math";
-        String userLastName = "Qatest";
-        String userEmail = "qatest@gmail.com";
         String userGender = "Male";
-        String phone = "1234567899";
-        String birthDate = "18 April 1995";
         String hobbies = "Sports";
         String picture = "images.jpg";
-        String Address = "Some Address";
         String userState = "NCR";
         String userCity = "Delhi";
 
         registrationPage.openPage()
-                .setFirstName(userName)
-                .setLastName(userLastName)
-                .setEmail(userEmail)
+                .setFirstName(testData.userName)
+                .setLastName(testData.userLastName)
+                .setEmail(testData.userEmail)
                 .setGender(userGender)
-                .setPhone(phone)
-                .setBirthDate(birthDate)
+                .setPhone(testData.phone)
+                .setBirthDate(testData.getBirthday())
                 .setSubjects(subject)
                 .setHobbies(hobbies)
                 .uploadPicture(picture)
-                .setCurrentAddress(Address)
+                .setCurrentAddress(testData.address)
                 .setState(userState)
                 .setCity(userCity)
                 .submit();
 
         registrationPage.verifyResultsModalAppears()
-                .verifyResult("Student Name", userName + " Qatest")
-                .verifyResult("Student Email", "qatest@gmail.com")
+                .verifyResult("Student Name", testData.userName + " " + testData.userLastName)
+                .verifyResult("Student Email", testData.userEmail)
                 .verifyResult("Gender", "Male")
-                .verifyResult("Mobile", "1234567899")
-                .verifyResult("Date of Birth", "18 April,1995")
+                .verifyResult("Mobile", testData.phone)
+                .verifyResult("Date of Birth", testData.getBirthday())
                 .verifyResult("Subjects", "Maths")
                 .verifyResult("Hobbies", "Sports")
                 .verifyResult("Picture", "images.jpg")
-                .verifyResult("Address", "Some address")
+                .verifyResult("Address", testData.address)
                 .verifyResult("State and City", "NCR Delhi");
     }
 

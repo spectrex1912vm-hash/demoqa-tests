@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.12.0"
 }
 
 repositories {
@@ -7,10 +8,26 @@ repositories {
 }
 
 dependencies {
-    testImplementation "com.codeborne:selenide:7.2.3"
-    testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
+    testImplementation (
+            "com.codeborne:selenide:7.2.3",
+            "org.junit.jupiter:junit-jupiter:5.10.2",
+            "com.github.javafaker:javafaker:1.0.2",
+            "io.qameta.allure:allure-junit5:2.27.0",
+            "io.qameta.allure:allure-selenide:2.27.0",
+            "org.aspectj:aspectjweaver:1.9.24"
+    )
+
 }
 
 test {
     useJUnitPlatform()
+
+    jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"
+}
+
+task simple_tests(type: Test) {
+    useJUnitPlatform {
+        includeTags("simple")
+    }
+
 }

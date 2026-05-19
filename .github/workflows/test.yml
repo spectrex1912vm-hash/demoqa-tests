@@ -3,7 +3,7 @@ name: UI Tests
 on:
   push:
     branches:
-      - Симпл
+      - Simple
 
 jobs:
   tests:

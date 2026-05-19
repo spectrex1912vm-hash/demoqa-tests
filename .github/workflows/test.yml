@@ -19,8 +19,21 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run tests
-        run: bash ./gradlew clean test
+      - name: Run UI tests
+        run: |
+          bash ./gradlew clean test \
+          -Dselenide.headless=true \
+          -Dchromeoptions.args="--no-sandbox,--disable-dev-shm-usage"
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results
+          path: build/allure-results

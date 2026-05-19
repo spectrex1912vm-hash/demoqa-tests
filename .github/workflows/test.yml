@@ -1,0 +1,23 @@
+name: UI Tests
+
+on:
+  push:
+    branches:
+      - Симпл
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run tests
+        run: ./gradlew clean test

@@ -31,9 +31,24 @@ jobs:
           -Dselenide.headless=true \
           -Dchromeoptions.args="--no-sandbox,--disable-dev-shm-usage"
 
-      - name: Upload Allure results
+      - name: Upload Allure results artifact
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-results
           path: build/allure-results
+
+      - name: Download allurectl
+        if: always()
+        run: |
+          curl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64 -o allurectl
+          chmod +x allurectl
+
+      - name: Upload results to Allure TestOps
+        if: always()
+        env:
+          ALLURE_ENDPOINT: ${{ secrets.ALLURE_ENDPOINT }}
+          ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+          ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
+        run: |
+          ./allurectl upload build/allure-results

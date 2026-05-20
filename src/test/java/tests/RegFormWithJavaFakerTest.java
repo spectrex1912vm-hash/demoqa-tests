@@ -1,32 +1,26 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
-public class RegFormTest {
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.browserSize = "1920x1080";
 
-    }
+public class RegFormWithJavaFakerTest extends TestBase {
 
     @Test
     void regFormTest() {
-        String userName = "Testqa";
-        String lastname = "Qatest";
-        String userEmail = "qatest@gmail.com";
-
+        String userName = "";
+        String lastname = "";
+        String userEmail = "";
 
         open("https://demoqa.com/automation-practice-form");
         $("h1").shouldBe(visible).shouldHave(text("Practice Form"));
         $("#firstName").setValue(userName);
         $("#lastName").setValue(lastname);
-        $("#userEmail").setValue("qatest@gmail.com");
+        $("#userEmail").setValue(userEmail);
         $(".form-check-input").click();
         $("#userNumber").setValue("1234567899");
         $("#dateOfBirthInput").setValue("18 Apr 1995");
